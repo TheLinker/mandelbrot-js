@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		html, body {
+			padding: 0px;
+			margin: 0px;
+			height:100%;
+			width:100%;
+			overflow: hidden;
+		}
+		#canvas {
+			padding: 0px;
+			margin: 0px;
+			/*height:500px;*/
+			/*width:500px;*/
+			height:100%;
+			width:100%;
+		}
+		#overlay {
+		    background: rgb(158, 158, 158);
+		    position: absolute;
+		    left: 10px;
+		    top: 10px;
+		    z-index: 1000;
+		    padding: 10px;
+		    border-radius: 10px;
+		    border: 1px solid yellow;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript" src="mandelbrot.js"></script>
+	<script type="text/javascript" src="complex.js"></script>
+
+	<div id="overlay">
+		<div>
+			<label for=centerx>Center X</label>
+			<input type="number" step=0.00001 value="0" id="centerx"/>
+		</div><div>
+			<label for=centery>Center Y</label>
+			<input type="number" step=0.00001 value="0" id="centery"/>
+		</div><div>
+			<label for=stretch>Stretch</label>
+			<input type="number" step=0.00001 value="2" id="stretch"/>
+		</div>
+		<button id=render>Render</button>
+	</div>
+<div>
+	<canvas id="canvas"></canvas>
+</div>
+
+	<script type="text/javascript">
+		var c = document.getElementById("canvas");
+		var body = document.getElementsByTagName("body")[0];
+		var mb = new Mandelbrot(c);
+		renderScene();
+
+		document.getElementById("render").addEventListener("click", function() {
+			renderScene();
+		});
+
+
+		setInterval(renderScene, 1000);
+
+		function renderScene() {
+			c.height = body.offsetHeight;
+			c.width = body.offsetWidth;
+			
+			var cx = parseFloat(document.getElementById("centerx").value);
+			var cy = parseFloat(document.getElementById("centery").value);
+			var st = parseFloat(document.getElementById("stretch").value);
+			mb.draw(new Complex(cx, cy), st);
+		}
+	</script>
+
+</body>
+</html>
